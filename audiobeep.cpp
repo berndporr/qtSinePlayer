@@ -23,11 +23,14 @@ AudioBeep::AudioBeep(QObject *w,qreal beepDuration, qreal beepFreq) {
 		throw "Raw audio format not supported by backend, cannot play audio.";
 	}
 
-	const quint32 n = static_cast<quint32>(duration * sampleRate);   // number of data samples
-	// --- transfer QVector data to QByteBuffer
+	// number of data samples
+	const quint32 n = static_cast<quint32>(duration * sampleRate);
+
 	// resize byteBuffer to the total number of bytes that will be needed to accommodate
 	// all the n data samples that are of type float
 	byteBuffer.resize(sizeof(float) * n);
+
+	// create the sinewave
 	for (quint32 i = 0; i < n; i++)
 	{
 		qreal sinVal = (qreal)sin(2.0 * M_PI * frequency * i / sampleRate);  // create sine wave data samples, one at a time
@@ -48,6 +51,7 @@ AudioBeep::AudioBeep(QObject *w,qreal beepDuration, qreal beepFreq) {
 	}	
 }
 
+// play the audio
 void AudioBeep::play() {
 	QBuffer* input  = new QBuffer(&byteBuffer);
 	input->open(QIODevice::ReadOnly);
@@ -64,4 +68,3 @@ void AudioBeep::play() {
 	// start the audio (i.e., play sound from the QAudioOutput object that we just created)
 	audio->start(input);
 }
-
