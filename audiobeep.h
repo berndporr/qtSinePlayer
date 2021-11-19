@@ -12,7 +12,7 @@ class AudioBeep : public QObject {
 	Q_OBJECT
 
 public:
-	AudioBeep(QObject *w);
+	AudioBeep(QObject *w, qreal beepDuration = 1.0, qreal beepFreq = 1000);
 
 public slots:
 	void play();
@@ -23,7 +23,6 @@ private:
 	qreal sampleRate = 40000;   // sample rate
 	qreal duration = 1.000;     // duration in seconds
 	qreal frequency = 1000;     // frequency
-	const quint32 n = static_cast<quint32>(duration * sampleRate);   // number of data samples
 
 	QByteArray byteBuffer;
 };

@@ -4,11 +4,14 @@
 #include <math.h>
 
 // constructor
-AudioBeep::AudioBeep(QObject *w) : qparent(w) {
+AudioBeep::AudioBeep(QObject *w,qreal beepDuration, qreal beepFreq) {
+	qparent = w;
+	duration = beepDuration;
+	frequency = beepFreq;
+	const quint32 n = static_cast<quint32>(duration * sampleRate);   // number of data samples
 	// --- transfer QVector data to QByteBuffer
-	// create a new instance of QByteArray class (in the heap, dynamically arranged in memory), and set its pointer to byteBuffer
-	// byteBuffer = new QByteArray();
-	// resize byteBuffer to the total number of bytes that will be needed to accommodate all the n data samples that are of type float
+	// resize byteBuffer to the total number of bytes that will be needed to accommodate
+	// all the n data samples that are of type float
 	byteBuffer.resize(sizeof(float) * n);
 	for (quint32 i = 0; i < n; i++)
 	{
@@ -56,14 +59,11 @@ void AudioBeep::play() {
 
 	QAudioOutput* audio = new QAudioOutput(audioFormat, qparent);
 		
-	fprintf(stderr,"Started playing\n");
-
 	connect(audio, &QAudioOutput::stateChanged, [audio, input](QAudio::State newState)
 							    {
 								    // finished playing (i.e., no more data)
 								    if (newState == QAudio::IdleState)
 								    {
-									    qDebug() << "finished playing sound";
 									    delete audio;
 									    delete input;
 								    }
@@ -72,8 +72,6 @@ void AudioBeep::play() {
 
 	// start the audio (i.e., play sound from the QAudioOutput object that we just created)
 	audio->start(input);
-
-	fprintf(stderr,"Finished playing\n");
 
 }
 
