@@ -41,3 +41,7 @@ internal buffers.
 Credits:
 
 https://forum.qt.io/topic/86218/trouble-playing-sound-directly-out-of-raw-data-vectors/12
+
+## Troubleshooting
+
+Ubuntu/Debian: Make sure that `libqt5multimedia5-plugins` are installed.
