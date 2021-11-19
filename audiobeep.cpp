@@ -8,6 +8,21 @@ AudioBeep::AudioBeep(QObject *w,qreal beepDuration, qreal beepFreq) {
 	qparent = w;
 	duration = beepDuration;
 	frequency = beepFreq;
+
+	audioFormat.setSampleRate(static_cast<int>(sampleRate));
+	audioFormat.setChannelCount(1);
+	// set the sample size in bits. We set it to 32 bis, because we set SampleType to float (one float has 4 bytes ==> 32 bits)
+	audioFormat.setSampleSize(32);
+	audioFormat.setCodec("audio/pcm");
+	audioFormat.setByteOrder(QAudioFormat::LittleEndian);
+	// use Float, to have a better resolution than SignedInt or UnSignedInt
+	audioFormat.setSampleType(QAudioFormat::Float);
+		
+	QAudioDeviceInfo deviceInfo(QAudioDeviceInfo::defaultOutputDevice());
+	if(!deviceInfo.isFormatSupported(audioFormat)) {
+		throw "Raw audio format not supported by backend, cannot play audio.";
+	}
+
 	const quint32 n = static_cast<quint32>(duration * sampleRate);   // number of data samples
 	// --- transfer QVector data to QByteBuffer
 	// resize byteBuffer to the total number of bytes that will be needed to accommodate
@@ -34,31 +49,9 @@ AudioBeep::AudioBeep(QObject *w,qreal beepDuration, qreal beepFreq) {
 }
 
 void AudioBeep::play() {
-	// Make a QBuffer with our QByteArray
 	QBuffer* input  = new QBuffer(&byteBuffer);
-	input->open(QIODevice::ReadOnly);   // set the QIODevice to read-only
-		
-	// create and setup a QAudioFormat object
-	QAudioFormat audioFormat;
-	audioFormat.setSampleRate(static_cast<int>(sampleRate));
-	audioFormat.setChannelCount(1);
-	// set the sample size in bits. We set it to 32 bis, because we set SampleType to float (one float has 4 bytes ==> 32 bits)
-	audioFormat.setSampleSize(32);
-	audioFormat.setCodec("audio/pcm");
-	audioFormat.setByteOrder(QAudioFormat::LittleEndian);
-	// use Float, to have a better resolution than SignedInt or UnSignedInt
-	audioFormat.setSampleType(QAudioFormat::Float);
-		
-	// create a QAudioDeviceInfo object, to make sure that our audioFormat is supported by the device
-	QAudioDeviceInfo deviceInfo(QAudioDeviceInfo::defaultOutputDevice());
-	if(!deviceInfo.isFormatSupported(audioFormat))
-	{
-		qWarning() << "Raw audio format not supported by backend, cannot play audio.";
-		return;
-	}
-
+	input->open(QIODevice::ReadOnly);
 	QAudioOutput* audio = new QAudioOutput(audioFormat, qparent);
-		
 	connect(audio, &QAudioOutput::stateChanged, [audio, input](QAudio::State newState)
 							    {
 								    // finished playing (i.e., no more data)
@@ -68,10 +61,7 @@ void AudioBeep::play() {
 									    delete input;
 								    }
 							    });
-
-
 	// start the audio (i.e., play sound from the QAudioOutput object that we just created)
 	audio->start(input);
-
 }
 

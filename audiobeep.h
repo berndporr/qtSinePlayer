@@ -25,6 +25,7 @@ private:
 	qreal frequency = 1000;     // frequency
 
 	QByteArray byteBuffer;
+	QAudioFormat audioFormat;
 };
 
 #endif
