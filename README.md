@@ -22,8 +22,9 @@ Include audiobeep.h into your program:
 
 Create an instance of `AudioBeep`:
 ```
-audiobeep = new AudioBeep(this);
+audiobeep = new AudioBeep(this,[[duration,]frequency]);
 ```
+where frequency defaults to 1kHz and duration to 1sec.
 
 And play a sound whenever you need it:
 ```
