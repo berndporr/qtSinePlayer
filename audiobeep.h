@@ -20,7 +20,7 @@ public slots:
 private:
 	QObject* qparent;
 
-	qreal sampleRate = 40000;   // sample rate
+	qreal sampleRate = 48000;   // sample rate
 	qreal duration = 1.000;     // duration in seconds
 	qreal frequency = 1000;     // frequency
 
