@@ -27,7 +27,6 @@ public:
 	 **/
 	AudioBeep(QObject *w, float beepDuration = 1.0, float beepFreq = 1000, float volume = 1.0);
 
-public slots:
 	/**
 	 * Plays the sine wave asynchronously. The function returns instantly. Playing is in the background.
 	 **/
