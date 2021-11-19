@@ -14,7 +14,7 @@ sine tone and sends it out.
 
 `./qtsineplay`
 
-## How to use in your program
+## How to use it in your program
 
 Include `audiobeep.h` into your program:
 ```
@@ -22,7 +22,7 @@ Include `audiobeep.h` into your program:
 ```
 
 Create an instance of `AudioBeep` in the *constructor*
-of your program (i.e. create it only one):
+of your program (i.e. create it only once):
 ```
 audiobeep = new AudioBeep(this,[[duration,]frequency]);
 ```
