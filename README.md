@@ -24,9 +24,9 @@ Include `audiobeep.h` into your program:
 Create an instance of `AudioBeep` in the *constructor*
 of your program (i.e. create it only once):
 ```
-audiobeep = new AudioBeep(this,[[duration,]frequency]);
+audiobeep = new AudioBeep(this,[duration,][frequency,][volume]);
 ```
-where frequency defaults to 1kHz and duration to 1sec. `this`
+where frequency defaults to 1kHz, duration to 1sec and volume at one. `this`
 points to the underlying QT widget, usually a window but
 it can also be a button itself. Any QT Object will work.
 
@@ -34,9 +34,6 @@ And play a sound whenever you need it and as often as you like:
 ```
 audiobeep->play();
 ```
-
-Don't forget to delete the class as this will release the
-internal buffers.
 
 Credits:
 
