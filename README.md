@@ -2,11 +2,12 @@
 
 To get this once and for all out of the way here here is a
 class called `AudioBeep` which creates a nice pleasant
-1kHz sine tone and sends it out.
+sine tone and sends it out.
 
 ## How to compile
 
 `qmake`
+
 `make`
 
 ## How to run
@@ -15,21 +16,27 @@ class called `AudioBeep` which creates a nice pleasant
 
 ## How to use in your program
 
-Include audiobeep.h into your program:
+Include `audiobeep.h` into your program:
 ```
 #include "audiobeep.h"
 ```
 
-Create an instance of `AudioBeep`:
+Create an instance of `AudioBeep` in the *constructor*
+of your program (i.e. create it only one):
 ```
 audiobeep = new AudioBeep(this,[[duration,]frequency]);
 ```
-where frequency defaults to 1kHz and duration to 1sec.
+where frequency defaults to 1kHz and duration to 1sec. `this`
+points to the underlying QT widget, usually a window but
+it can also be a button itself. Any QT Object will work.
 
-And play a sound whenever you need it:
+And play a sound whenever you need it and as often as you like:
 ```
 audiobeep->play();
 ```
+
+Don't forget to delete the class as this will release the
+internal buffers.
 
 Credits:
 
