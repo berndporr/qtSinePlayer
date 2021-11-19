@@ -1,10 +1,6 @@
-#include <QtWidgets>
-#include <QtMultimedia/QAudioFormat>
-#include <QtMultimedia/QAudioDeviceInfo>
-#include <QtMultimedia/QAudioOutput>
-
 #include "audiobeep.h"
 #include "playpushbutton.h"
+#include<QApplication>
 
 int main(int argc, char **argv)
 {
