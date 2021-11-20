@@ -1,7 +1,7 @@
 # QT Sine Wave player
 
-To get this once and for all out of the way here here is a
-class called `AudioBeep` which creates a nice pleasant
+To get this once and for all out of the way here is a
+class called `AudioBeep` which creates a pleasant
 sine tone and then you can play it over and over again!
 
 ## How to compile
