@@ -1,5 +1,5 @@
-#ifndef _AudioBeep
-#define _AudioBeep
+#ifndef _AUDIOBEEP
+#define _AUDIOBEEP
 
 #include <QtMultimedia/QAudioFormat>
 #include <QtMultimedia/QAudioDeviceInfo>
@@ -25,14 +25,20 @@ public:
 	 * \param beepFreq The beep frequency in Hz
 	 * \param volume The volume of the tone from 0..1
 	 **/
-	AudioBeep(QObject *w, float beepDuration = 1.0, float beepFreq = 1000, float volume = 1.0);
+	AudioBeep(QObject *w,
+		  float beepDuration = 1.0,
+		  float beepFreq = 1000,
+		  float volume = 1.0);
 
 	/**
-	 * Plays the sine wave asynchronously. The function returns instantly. Playing is in the background.
+	 * Plays the sine wave asynchronously. 
+	 * The function returns instantly. 
+	 * Playing is in the background.
 	 **/
 	void play();
 
 private:
+	// We use a fixed sampling rate here supported by any sound card
 	const unsigned int sampleRate = 48000;
 
 	QObject* qparent;

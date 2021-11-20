@@ -1,5 +1,5 @@
-#ifndef _QPlayButton
-#define _QPlayButton
+#ifndef _QPLAYBUTTON
+#define _QPLAYBUTTON
 
 #include<QPushButton>
 #include "audiobeep.h"
