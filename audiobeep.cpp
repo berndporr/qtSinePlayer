@@ -6,17 +6,19 @@
 // constructor
 AudioBeep::AudioBeep(QObject *w, float duration, float frequency, float volume) {
 	qparent = w;
-	
+
+	// 16 bit audio PCM
 	audioFormat.setSampleRate(sampleRate);
 	audioFormat.setChannelCount(1);
 	audioFormat.setSampleSize(16);
 	audioFormat.setCodec("audio/pcm");
 	audioFormat.setByteOrder((QAudioFormat::Endian)QSysInfo::ByteOrder);
 	audioFormat.setSampleType(QAudioFormat::SignedInt);
-		
+
+	// check if we can play it
 	QAudioDeviceInfo deviceInfo(QAudioDeviceInfo::defaultOutputDevice());
 	if(!deviceInfo.isFormatSupported(audioFormat)) {
-		throw "Raw audio format not supported by backend, cannot play audio.";
+		throw "QT backend to play raw audio is not installed, cannot play audio.";
 	}
 
 	// number of data samples
@@ -31,27 +33,28 @@ AudioBeep::AudioBeep(QObject *w, float duration, float frequency, float volume) 
 		// create sine wave data samples, one at a time
 		qint16 sinVal = (qint16)(sin(2.0 * M_PI * frequency * i / sampleRate)*32767*volume);
 		( (qint16*)byteBuffer.constData() )[i] = sinVal;
-	}	
+	}
+
+	// create the fake streaming buffer
 	input  = new QBuffer(&byteBuffer, qparent);
+	// open the fake stream
 	input->open(QIODevice::ReadOnly);
+	// open the audio output
+	audio = new QAudioOutput(audioFormat, qparent);
 }
+
+
+// destructor
+AudioBeep::~AudioBeep() {
+	input->close();
+	delete input;
+	delete audio;
+}
+
 
 // play the audio
 void AudioBeep::play() {
 	input->seek(0);
-	QAudioOutput* audio = new QAudioOutput(audioFormat, qparent);
-	// Create a callback as a lambda expression which releases "input" and "audio"
-	// after playing has finished, thus this allows async audio playing without blocking.
-	connect(audio, &QAudioOutput::stateChanged, [this,audio](QAudio::State newState)
-							    {
-								    // finished playing (i.e., no more data)
-								    if (newState == QAudio::IdleState)
-								    {
-									    audio->stop();
-									    // delete the classes and release the memory
-									    delete audio;
-								    }
-							    });
-	// Start the audio (i.e., play sound from the QAudioOutput object) and return immediately to the caller.
+	audio->reset();
 	audio->start(input);
 }

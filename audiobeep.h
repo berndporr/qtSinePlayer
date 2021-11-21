@@ -30,10 +30,10 @@ public:
 		  float beepFreq = 1000,
 		  float volume = 1.0);
 
-	~AudioBeep() {
-		input->close();
-		delete input;
-	}
+	/**
+	 * Destructor: frees all buffers and the player
+	 **/
+	~AudioBeep();
 
 	/**
 	 * Plays the sine wave asynchronously. 
@@ -50,6 +50,7 @@ private:
 	QByteArray byteBuffer;
 	QAudioFormat audioFormat;
 	QBuffer* input;
+	QAudioOutput* audio;
 };
 
 #endif
