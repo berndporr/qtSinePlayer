@@ -32,23 +32,24 @@ AudioBeep::AudioBeep(QObject *w, float duration, float frequency, float volume) 
 		qint16 sinVal = (qint16)(sin(2.0 * M_PI * frequency * i / sampleRate)*32767*volume);
 		( (qint16*)byteBuffer.constData() )[i] = sinVal;
 	}	
+	input  = new QBuffer(&byteBuffer, qparent);
+	input->open(QIODevice::ReadOnly);
 }
 
 // play the audio
 void AudioBeep::play() {
-	QBuffer* input  = new QBuffer(&byteBuffer, qparent);
-	input->open(QIODevice::ReadOnly);
+	input->seek(0);
 	QAudioOutput* audio = new QAudioOutput(audioFormat, qparent);
 	// Create a callback as a lambda expression which releases "input" and "audio"
 	// after playing has finished, thus this allows async audio playing without blocking.
-	connect(audio, &QAudioOutput::stateChanged, [audio, input](QAudio::State newState)
+	connect(audio, &QAudioOutput::stateChanged, [this,audio](QAudio::State newState)
 							    {
 								    // finished playing (i.e., no more data)
 								    if (newState == QAudio::IdleState)
 								    {
+									    audio->stop();
 									    // delete the classes and release the memory
 									    delete audio;
-									    delete input;
 								    }
 							    });
 	// Start the audio (i.e., play sound from the QAudioOutput object) and return immediately to the caller.

@@ -30,6 +30,11 @@ public:
 		  float beepFreq = 1000,
 		  float volume = 1.0);
 
+	~AudioBeep() {
+		input->close();
+		delete input;
+	}
+
 	/**
 	 * Plays the sine wave asynchronously. 
 	 * The function returns instantly. 
@@ -44,6 +49,7 @@ private:
 	QObject* qparent;
 	QByteArray byteBuffer;
 	QAudioFormat audioFormat;
+	QBuffer* input;
 };
 
 #endif
