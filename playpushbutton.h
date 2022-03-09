@@ -9,8 +9,8 @@ class QPlayButton : public QPushButton {
 	Q_OBJECT
 public:
 	QPlayButton() : QPushButton() {
-		connect(this, SIGNAL( clicked() ),
-			this, SLOT( buttonPressed() ) );
+		connect(this, &QPushButton::clicked,
+			this, &QPlayButton::buttonPressed );
 		audiobeep = new AudioBeep(this);
 	}
 
@@ -18,7 +18,6 @@ public:
 		delete audiobeep;
 	};
 
-public slots:
 	void buttonPressed() {
 		audiobeep->play();
 	}
