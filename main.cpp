@@ -1,13 +1,13 @@
 #include "audiobeep.h"
-#include "playpushbutton.h"
-#include<QApplication>
+#include <QApplication>
+#include "window.h"
 
+	
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    QPlayButton button;
-    button.resize(100, 50);
-    button.setText("Play");
-    button.show();
+    // create the window
+    Window window;
+    window.show();
     return app.exec();
 }
