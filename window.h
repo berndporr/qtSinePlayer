@@ -9,11 +9,11 @@ class Window : public QWidget
 public:
 	Window();
 
+private:
 	void playBeep() {
 		audiobeep->play();
 	}
 
-private:
 	QPushButton* button;
 	AudioBeep* audiobeep;
 };
