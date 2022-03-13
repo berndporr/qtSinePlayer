@@ -4,6 +4,13 @@ To get this once and for all out of the way here is a
 class called `AudioBeep` which creates a pleasant
 sine tone and then you can play it over and over again!
 
+## Prerequisites
+
+The QT5 development packages are required, including multimedia:
+```
+sudo apt-get install qtdeclarative5-dev-tools qtmultimedia5-dev
+```
+
 ## How to compile
 
 `qmake`
