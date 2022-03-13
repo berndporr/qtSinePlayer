@@ -8,7 +8,7 @@ sine tone and then you can play it over and over again!
 
 The QT5 development packages are required, including multimedia:
 ```
-sudo apt-get install qtdeclarative5-dev-tools qtmultimedia5-dev
+sudo apt-get install qtdeclarative5-dev qtmultimedia5-dev
 ```
 
 ## How to compile
